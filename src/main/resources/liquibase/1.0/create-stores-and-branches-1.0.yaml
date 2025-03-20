@@ -1,0 +1,71 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-store-branches-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: store_branches
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: filial_adi
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dn
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: city_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_store_branches_city
+                    references: cities(id)
+
+  - changeSet:
+      id: create-stores-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: stores
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: unvan
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    unique: true
+                    foreignKeyName: fk_stores_user
+                    references: users(id)
+              - column:
+                  name: branchName
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_stores_store_branch
+                    references: store_branches(id)

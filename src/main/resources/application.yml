@@ -1,20 +1,22 @@
 server:
-  port: 8386
+  port: 8080
 
 spring:
-
   datasource:
-    url: jdbc:mysql://localhost:3306/yudo_web?allowPublicKeyRetrieval=true&useSSL=false
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 12345
-
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5439/yudo-db # "yudo-db" is DB_name
+    username: yudo_user
+    password: mysecretpassword
   jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
     properties:
       hibernate:
-        format_sql: true
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
+        temp:
+          :use_jdbc_metadata_defaults: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    show-sql: true #it will help us to see the sql queries in jpa methods
+  liquibase:
+    change-log: classpath:liquibase/changelog-master.yml #here we give the location of changelog file that store the location of the changesets
+
+
+

@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-categories-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: category_name
+                  type: varchar(255)
+              - column:
+                  name: image_alt
+                  type: varchar(255)
+              - column:
+                  name: image_path
+                  type: varchar(255)
+              - column:
+                  name: link
+                  type: varchar(255)
+              - column:
+                  name: image
+                  type: blob
+
+  - changeSet:
+      id: create-storage-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: storage
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: file_name
+                  type: varchar(255)
+              - column:
+                  name: file_data
+                  type: blob
+                  constraints:
+                    constraints:
+                      length: 100000
