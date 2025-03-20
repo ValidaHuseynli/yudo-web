@@ -1,0 +1,98 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-posts-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: posts
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: description
+                  type: varchar(255)
+              - column:
+                  name: slug
+                  type: varchar(255)
+              - column:
+                  name: image_path
+                  type: varchar(255)
+              - column:
+                  name: likes
+                  type: int
+              - column:
+                  name: image
+                  type: blob
+              - column:
+                  name: storage_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_posts_storage
+                    references: storage(id)
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_posts_user
+                    references: users(id)
+
+  - changeSet:
+      id: create-post-liked-users-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: post_liked_users
+            columns:
+              - column:
+                  name: post_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_post_liked_users_post
+                    references: posts(id)
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_post_liked_users_user
+                    references: users(id)
+            constraints:
+              - primaryKey:
+                  columns: post_id, user_id
+
+  - changeSet:
+      id: create-post-comments-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: content
+                  type: varchar(255)
+              - column:
+                  name: created_at
+                  type: datetime
+              - column:
+                  name: post_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_post_comments_post
+                    references: posts(id)
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_post_comments_user
+                    references: users(id)

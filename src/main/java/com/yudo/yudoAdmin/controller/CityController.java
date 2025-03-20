@@ -21,4 +21,5 @@ public class CityController {
     public ResponseEntity<CityResponse> saveCity(@RequestBody CityRequest request){
         return cityService.createCity(request);
     }
+
 }

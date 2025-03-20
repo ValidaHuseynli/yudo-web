@@ -1,0 +1,195 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-products-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: slug
+                  type: varchar(255)
+              - column:
+                  name: title
+                  type: varchar(255)
+              - column:
+                  name: description
+                  type: varchar(255)
+              - column:
+                  name: image_alt
+                  type: varchar(255)
+              - column:
+                  name: visible
+                  type: boolean
+                  defaultValue: false
+              - column:
+                  name: publish
+                  type: boolean
+              - column:
+                  name: image_path
+                  type: varchar(255)
+              - column:
+                  name: image_url
+                  type: varchar(255)
+              - column:
+                  name: date
+                  type: date
+              - column:
+                  name: video_url
+                  type: varchar(255)
+              - column:
+                  name: image
+                  type: blob
+              - column:
+                  name: content
+                  type: varchar(255)
+              - column:
+                  name: published_date
+                  type: datetime
+              - column:
+                  name: storage_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_products_storage
+                    references: storage(id)
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_products_user
+                    references: users(id)
+              - column:
+                  name: old_price
+                  type: decimal(19,2)
+              - column:
+                  name: new_price
+                  type: decimal(19,2)
+
+  - changeSet:
+      id: create-product-categories-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: product_categories
+            columns:
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_product_categories_product
+                    references: products(id)
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_product_categories_category
+                    references: categories(id)
+            constraints:
+              - primaryKey:
+                  columns: product_id, category_id
+
+  - changeSet:
+      id: create-product-likes-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: product_likes
+            columns:
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_product_likes_product
+                    references: products(id)
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_product_likes_user
+                    references: users(id)
+            constraints:
+              - primaryKey:
+                  columns: product_id, user_id
+
+  - changeSet:
+      id: create-image-data-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: image_data
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: file_name
+                  type: varchar(255)
+              - column:
+                  name: file_type
+                  type: varchar(255)
+              - column:
+                  name: link
+                  type: varchar(255)
+              - column:
+                  name: image_data1
+                  type: blob
+                  constraints:
+                    length: 100000
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_image_data_product
+                    references: products(id)
+              - column:
+                  name: post_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_image_data_post
+                    references: posts(id)
+              - column:
+                  name: file_path
+                  type: varchar(255)
+              - column:
+                  name: media_type
+                  type: varchar(255)
+
+  - changeSet:
+      id: create-video-data-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: video_data
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_video_data_product
+                    references: products(id)
+              - column:
+                  name: video_url
+                  type: varchar(255)
+              - column:
+                  name: video_path
+                  type: varchar(255)
+              - column:
+                  name: content_type
+                  type: varchar(255)

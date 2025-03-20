@@ -1,17 +1,8 @@
 package com.yudo.yudoAdmin.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.JoinTable;
+import com.yudo.yudoAdmin.enums.UserStatus;
+import jakarta.persistence.*;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -20,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,11 +34,21 @@ public class UserEntity{
         @Column(unique = true)
         private String phone;
 
+
+
         @NotNull
         private String password;
 
         @Column(name = "is_verified")
         private boolean isVerified;
+
+        @Enumerated(EnumType.STRING)
+        private UserStatus role;
+
+        private boolean isSellerBlocked = false;
+
+        private LocalDateTime blockedFrom;
+        private LocalDateTime blockedUntil;
 
         @ManyToMany(mappedBy = "likedByUsers")
         private Set<Product> likedProducts = new HashSet<>();
@@ -66,6 +68,9 @@ public class UserEntity{
         @OneToOne(mappedBy = "user")
         @JsonIgnore
         private Store stores;
+
+        private boolean canPost = false;
+
         @JsonIgnore
         @OneToMany(mappedBy = "user")
         private List<PostEntity> posts;

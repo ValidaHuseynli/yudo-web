@@ -1,0 +1,176 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: phone
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_verified
+                  type: boolean
+
+  - changeSet:
+      id: create-authorities-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: authorities
+            columns:
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+
+  - changeSet:
+      id: create-user-authorities-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: user_authorities
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_user_authorities_user
+                    references: users(id)
+              - column:
+                  name: authority_name
+                  type: varchar(255)
+                  constraints:
+                    foreignKeyName: fk_user_authorities_authority
+                    references: authorities(name)
+            constraints:
+              - primaryKey:
+                  columns: user_id, authority_name
+
+  - changeSet:
+      id: create-admins-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: admins
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: phone
+                  type: varchar(255)
+              - column:
+                  name: register_date
+                  type: datetime
+              - column:
+                  name: update_date
+                  type: datetime
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    unique: true
+                    foreignKeyName: fk_admins_user
+                    references: users(id)
+
+  - changeSet:
+      id: create-cities-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: cities
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+
+  - changeSet:
+      id: create-clients-table-1.0
+      author: grok
+      changes:
+        - createTable:
+            tableName: clients
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: surname
+                  type: varchar(255)
+              - column:
+                  name: phone
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tin
+                  type: varchar(255)
+              - column:
+                  name: store
+                  type: varchar(255)
+              - column:
+                  name: address_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_clients_city
+                    references: cities(id)
+              - column:
+                  name: register_date
+                  type: datetime
+              - column:
+                  name: update_date
+                  type: datetime
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    unique: true
+                    foreignKeyName: fk_clients_user
+                    references: users(id)
