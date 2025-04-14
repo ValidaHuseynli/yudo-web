@@ -12,6 +12,9 @@ spring:
       hibernate:
         temp:
           use_jdbc_metadata_defaults: false
+
+          :use_jdbc_metadata_defaults: false
+
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     show-sql: true #it will help us to see the sql queries in jpa methods
